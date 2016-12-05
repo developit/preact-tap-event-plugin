@@ -1,6 +1,12 @@
 import { options } from 'preact';
 
 
+const OPTS = {
+	// # of pixels after which to discount as drag op
+	threshold: 10
+};
+
+
 let injected = false;
 
 
@@ -26,12 +32,6 @@ export default opts => {
 };
 
 
-const OPTS = {
-	// # of pixels after which to discount as drag op
-	threshold: 10
-};
-
-
 function proxy(attrs) {
 	let map = {};
 	for (let i in attrs) if (attrs.hasOwnProperty(i)) {
@@ -43,20 +43,25 @@ function proxy(attrs) {
 		tap = attrs[map.ontouchtap],
 		click = attrs[map.onclick],
 		hasTouch, down;
+
 	delete attrs[map.ontouchtap];
+
 	function coords(e) {
 		let t = e.changedTouches && e.changedTouches[0] || e.touches && e.touches[0] || e;
 		return { x: t.pageX, y: t.pageY };
 	}
+
 	attrs[map.onclick || 'onClick'] = e => {
 		if (click) click(e);
 		if (!hasTouch) return tap(e);
 	};
+
 	attrs[map.ontouchstart || 'onTouchStart'] = e => {
 		hasTouch = true;
 		down = coords(e);
 		if (start) return start(e);
 	};
+
 	attrs[map.ontouchend || 'onTouchEnd'] = e => {
 		let up = coords(e),
 			ret = end && end(e),
