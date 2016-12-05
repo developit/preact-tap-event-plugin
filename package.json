@@ -1,7 +1,7 @@
 {
   "name": "preact-tap-event-plugin",
   "amdName": "injectTapEventPlugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Use onTouchTap in Preact",
   "main": "dist/preact-tap-event-plugin.js",
   "minified:main": "dist/preact-tap-event-plugin.min.js",
