@@ -5,6 +5,8 @@
 
 `onTouchTap` is a [FastClick]-style instant "click" event, triggered by `touchstart` and `touchend` occurring within a 10-pixel radius.
 
+> This module intentionally has the same interface as [react-tap-event-plugin](https://github.com/zilverline/react-tap-event-plugin) so that it can be used as a drop-in alias when working with [preact-compat](https://github.com/developit/preact-compat).
+
 #### [JSFiddle Demo](https://jsfiddle.net/developit/rq877gp3/)
 
 
