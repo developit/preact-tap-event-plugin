@@ -6,9 +6,8 @@ const OPTS = {
 	threshold: 10
 };
 
-let injected = false;
 
-let hasTouch;
+let injected, hasTouch;
 
 
 // in case someone calls inject():
@@ -16,6 +15,7 @@ export default opts => {
 	for (let i in opts) if (opts.hasOwnProperty(i)) OPTS[i] = opts[i];
 
 	if (injected) return;
+	injected = true;
 
 	let oldHook = options.vnode;
 	options.vnode = vnode => {
@@ -40,7 +40,6 @@ function proxy(attrs) {
 	}
 
 	let start = attrs[map.ontouchstart],
-		end = attrs[map.ontouchend],
 		tap = attrs[map.ontouchtap],
 		click = attrs[map.onclick];
 
@@ -52,19 +51,17 @@ function proxy(attrs) {
 	};
 
 	attrs[map.ontouchstart || 'onTouchStart'] = e => {
-		let touch = coords(e);
+		let down = coords(e);
 		hasTouch = true;
-		getTarget(touch)._touchDown = touch;
-		if (start) return start(e);
-	};
 
-	attrs[map.ontouchend || 'onTouchEnd'] = e => {
-		let up = coords(e),
-			ret = end && end(e),
-			down = getTarget(up)._touchDown,
-			dist = Math.sqrt( Math.pow(up.x-down.x,2) + Math.pow(up.y-down.y,2) );
-		if (down && ret!==false && dist<OPTS.threshold) tap(e);
-		return ret;
+		addEventListener('touchend', function onEnd(e) {
+			removeEventListener('touchend', onEnd);
+			let up = coords(e),
+				dist = Math.sqrt( Math.pow(up.x-down.x,2) + Math.pow(up.y-down.y,2) );
+			if (dist<OPTS.threshold) tap(e);
+		});
+
+		if (start) return start(e);
 	};
 }
 
@@ -72,10 +69,4 @@ function proxy(attrs) {
 function coords(e) {
 	let t = e.changedTouches && e.changedTouches[0] || e.touches && e.touches[0] || e;
 	return { x: t.pageX, y: t.pageY, target: t.target };
-}
-
-
-function getTarget(e) {
-	let t = e.target;
-	return t.nodeType===3 ? t.parentNode : t;
 }
