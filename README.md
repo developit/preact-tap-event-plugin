@@ -1,5 +1,7 @@
 # preact-tap-event-plugin: `onTouchTap` <sub>_for [Preact]_</sub>
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/developit/preact-tap-event-plugin.svg)](https://greenkeeper.io/)
+
 [![NPM](https://img.shields.io/npm/v/preact-tap-event-plugin.svg)](https://www.npmjs.com/package/preact-tap-event-plugin)
 [![Travis](https://travis-ci.org/developit/preact-tap-event-plugin.svg?branch=master)](https://travis-ci.org/developit/preact-tap-event-plugin)
 
