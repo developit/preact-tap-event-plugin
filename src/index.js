@@ -19,7 +19,7 @@ export default opts => {
 
 	let oldHook = options.vnode;
 	options.vnode = vnode => {
-		let attrs = vnode.attributes;
+		let attrs = 'props' in vnode ? vnode.props : vnode.attributes;
 		if (attrs) {
 			for (let i in attrs) {
 				if (attrs.hasOwnProperty(i) && i.toLowerCase()==='ontouchtap') {
